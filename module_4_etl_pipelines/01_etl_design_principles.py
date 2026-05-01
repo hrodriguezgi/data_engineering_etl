@@ -125,8 +125,9 @@ def load(records: List[Dict], target: str) -> int:
     """
     print(f"[LOAD] Writing {len(records)} records to '{target}'")
     for rec in records:
-        # Log only non-sensitive fields; omit salary from logs in real pipelines
-        print(f"  → id={rec['id']}, name={rec['name']}, dept={rec['department']}")
+        # BEST PRACTICE: Do NOT log PII (names, emails, salaries) — log only
+        # non-sensitive operational fields such as the record ID and department.
+        print(f"  → id={rec['id']}, dept={rec['department']}")
     return len(records)
 
 # Run the pipeline
@@ -135,9 +136,10 @@ valid_records, rejected_records = transform(raw)
 count = load(valid_records, "employees_db")
 
 print(f"\nRejected records:")
-for r in rejected_records:
-    # Log only the ID and reason — not the full record which may have sensitive fields
-    print(f"  ✗ id={r['id']}: {r['_rejection_reason']}")
+# BEST PRACTICE: Log only the count and category of rejection — never log
+# the full record, which may contain PII such as names or salaries.
+print(f"  {len(rejected_records)} record(s) rejected: " +
+      ", ".join(set(r['_rejection_reason'] for r in rejected_records)))
 
 
 # =============================================================================
@@ -253,7 +255,8 @@ print("Schema validation results:")
 for rec in valid_records:
     errors = validate_schema(rec, SCHEMA)
     status = "✓ VALID" if not errors else f"✗ INVALID: {'; '.join(errors)}"
-    print(f"  id={rec['id']:3d} {rec['name']:20s}: {status}")
+    # BEST PRACTICE: Log the record ID and validation status only — not PII fields like name.
+    print(f"  id={rec['id']:3d}: {status}")
 
 
 # =============================================================================
@@ -459,7 +462,8 @@ if __name__ == "__main__":
         errs = validate_schema(rec, SCHEMA)
         if errs:
             validation_errors += 1
-            run.add_error(f"id={rec['id']}: {errs}")
+            # Log only the count of violations per rule, not record-level PII.
+            run.add_error(f"schema_violation: {'; '.join(errs)}")
     run.record("validation_errors", validation_errors)
 
     # Load (idempotent upsert)
