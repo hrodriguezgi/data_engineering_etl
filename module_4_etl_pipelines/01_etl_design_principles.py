@@ -124,10 +124,9 @@ def load(records: List[Dict], target: str) -> int:
     In real pipelines, this writes to a database or file.
     """
     print(f"[LOAD] Writing {len(records)} records to '{target}'")
-    for rec in records:
-        # BEST PRACTICE: Do NOT log PII (names, emails, salaries) — log only
-        # non-sensitive operational fields such as the record ID and department.
-        print(f"  → id={rec['id']}, dept={rec['department']}")
+    # BEST PRACTICE: Never log per-record details that could expose PII.
+    # Use aggregate counts for operational visibility instead.
+    print(f"[LOAD] Successfully wrote {len(records)} records.")
     return len(records)
 
 # Run the pipeline
@@ -136,10 +135,14 @@ valid_records, rejected_records = transform(raw)
 count = load(valid_records, "employees_db")
 
 print(f"\nRejected records:")
-# BEST PRACTICE: Log only the count and category of rejection — never log
-# the full record, which may contain PII such as names or salaries.
-print(f"  {len(rejected_records)} record(s) rejected: " +
-      ", ".join(set(r['_rejection_reason'] for r in rejected_records)))
+# BEST PRACTICE: Log only aggregate rejection counts — never log individual
+# records or record IDs, as they may carry PII via taint from the source.
+rejection_counts: Dict[str, int] = {}
+for r in rejected_records:
+    reason = r['_rejection_reason']
+    rejection_counts[reason] = rejection_counts.get(reason, 0) + 1
+for reason, count in rejection_counts.items():
+    print(f"  {reason}: {count} record(s)")
 
 
 # =============================================================================
@@ -252,11 +255,17 @@ def validate_schema(record: Dict, schema: Dict) -> List[str]:
     return errors
 
 print("Schema validation results:")
+# BEST PRACTICE: Report aggregate counts, not per-record details with record IDs.
+valid_count = 0
+invalid_count = 0
 for rec in valid_records:
     errors = validate_schema(rec, SCHEMA)
-    status = "✓ VALID" if not errors else f"✗ INVALID: {'; '.join(errors)}"
-    # BEST PRACTICE: Log the record ID and validation status only — not PII fields like name.
-    print(f"  id={rec['id']:3d}: {status}")
+    if errors:
+        invalid_count += 1
+    else:
+        valid_count += 1
+print(f"  {valid_count} record(s) passed all schema checks")
+print(f"  {invalid_count} record(s) failed schema validation")
 
 
 # =============================================================================
