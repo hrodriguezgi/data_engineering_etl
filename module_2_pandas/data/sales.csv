@@ -1,0 +1,21 @@
+order_id,date,customer_name,product,category,quantity,unit_price,region
+1001,2024-01-05,Alice Johnson,Laptop Pro,Electronics,1,1299.99,North
+1002,2024-01-07,Bob Smith,Wireless Mouse,Electronics,3,29.99,South
+1003,2024-01-08,Carol White,Office Chair,Furniture,1,349.99,East
+1004,2024-01-10,Dave Brown,Laptop Pro,Electronics,2,1299.99,West
+1005,2024-01-12,Alice Johnson,USB-C Hub,Electronics,2,49.99,North
+1006,2024-01-14,Eve Davis,Standing Desk,Furniture,1,799.99,South
+1007,2024-01-15,Frank Miller,Wireless Mouse,Electronics,5,29.99,East
+1008,2024-01-16,Grace Wilson,Monitor 27",Electronics,1,449.99,North
+1009,2024-01-18,Bob Smith,Keyboard,Electronics,1,89.99,South
+1010,2024-01-20,Henry Moore,Office Chair,Furniture,2,349.99,West
+1002,2024-01-07,Bob Smith,Wireless Mouse,Electronics,3,29.99,South
+1011,2024-01-22,Isabel Lee,Laptop Pro,Electronics,1,1299.99,East
+1012,2024-01-23,Jack Taylor,USB-C Hub,Electronics,,49.99,North
+1013,2024-01-25,Alice Johnson,Standing Desk,Furniture,1,,South
+1014,2024-01-27,Karen Martinez,Monitor 27",Electronics,2,449.99,
+1015,2024-01-28,Liam Anderson,Keyboard,Electronics,3,89.99,West
+1016,2024-01-30,Mia Thompson,Webcam HD,Electronics,1,79.99,North
+1017,2024-02-01,,Wireless Mouse,Electronics,4,29.99,South
+1018,2024-02-03,Noah Garcia,Laptop Pro,Electronics,1,1299.99,East
+1019,2024-02-05,Olivia Robinson,USB-C Hub,Electronics,2,49.99,West
