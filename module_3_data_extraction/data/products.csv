@@ -1,0 +1,16 @@
+product_id,product_name,category,price,stock_quantity,supplier
+P001,Laptop Pro 15,Laptops,1299.99,45,TechCorp Inc
+P002,Wireless Mouse,Peripherals,29.99,200,GadgetWorld
+P003,Mechanical Keyboard,Peripherals,89.99,150,GadgetWorld
+P004,27" 4K Monitor,Monitors,449.99,60,DisplayTech
+P005,USB-C Hub 7-in-1,Accessories,49.99,180,TechCorp Inc
+P006,Laptop Stand,Accessories,39.99,300,ErgoCo
+P007,Noise-Cancelling Headphones,Audio,179.99,75,SoundMax
+P008,Webcam HD 1080p,Peripherals,79.99,120,GadgetWorld
+P009,External SSD 1TB,Storage,109.99,90,StoragePro
+P010,Laptop Pro 13,Laptops,999.99,55,TechCorp Inc
+P011,Ergonomic Chair,Furniture,399.99,25,ErgoCo
+P012,Standing Desk,Furniture,699.99,15,ErgoCo
+P013,HDMI Cable 2m,Accessories,12.99,500,CableCo
+P014,Wireless Keyboard,Peripherals,59.99,130,GadgetWorld
+P015,Monitor Arm,Accessories,89.99,80,ErgoCo

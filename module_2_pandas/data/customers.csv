@@ -1,0 +1,11 @@
+customer_id,name,email,city,country,age
+C001,Alice Johnson,alice@example.com,New York,USA,32
+C002,Bob Smith,bob@example.com,Los Angeles,USA,28
+C003,Carol White,carol@example.com,Chicago,USA,45
+C004,Dave Brown,dave@example.com,Toronto,Canada,37
+C005,Eve Davis,eve@example.com,London,UK,29
+C006,Frank Miller,frank@example.com,Sydney,Australia,41
+C007,Grace Wilson,grace@example.com,New York,USA,33
+C008,Henry Moore,henry@example.com,Berlin,Germany,52
+C009,Isabel Lee,isabel@example.com,Tokyo,Japan,26
+C010,Jack Taylor,jack@example.com,Paris,France,38

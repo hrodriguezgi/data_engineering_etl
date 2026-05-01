@@ -1,0 +1,98 @@
+{
+  "pipeline_name": "sales_etl",
+  "version": "2.0",
+  "description": "Daily sales data ETL pipeline",
+  "schedule": {
+    "interval": "daily",
+    "run_at": "02:00",
+    "timezone": "UTC",
+    "retry_on_failure": true,
+    "max_retries": 3,
+    "retry_delay_seconds": 60
+  },
+  "source": {
+    "type": "csv",
+    "path": "module_4_etl_pipelines/data/raw_sales.csv",
+    "encoding": "utf-8",
+    "delimiter": ",",
+    "null_values": ["N/A", "NULL", "null", "none", ""],
+    "dtype_overrides": {
+      "id": "str",
+      "qty": "str",
+      "price": "str",
+      "discount": "str"
+    }
+  },
+  "transformations": [
+    {
+      "step": "parse_types",
+      "description": "Convert string columns to their correct types",
+      "columns": {
+        "qty": {"type": "int", "default": 1},
+        "price": {"type": "float", "on_error": "null"},
+        "discount": {"type": "float", "default": 0.0}
+      }
+    },
+    {
+      "step": "parse_dates",
+      "description": "Parse date columns",
+      "columns": ["sale_date"],
+      "format": "%Y-%m-%d"
+    },
+    {
+      "step": "fill_nulls",
+      "description": "Fill missing values",
+      "fills": {
+        "customer_id": "UNKNOWN",
+        "region": "Unknown",
+        "discount": 0.0,
+        "qty": 1
+      }
+    },
+    {
+      "step": "filter",
+      "description": "Remove invalid records",
+      "rules": [
+        {"column": "price", "operator": "gt", "value": 0},
+        {"column": "price", "operator": "lt", "value": 10000}
+      ]
+    },
+    {
+      "step": "derive",
+      "description": "Compute derived columns",
+      "columns": {
+        "net_amount": "qty * price * (1 - discount)",
+        "year": "sale_date.year",
+        "month": "sale_date.month"
+      }
+    }
+  ],
+  "validation": {
+    "enabled": true,
+    "fail_on_error_rate_above": 0.2,
+    "rules": [
+      {"field": "price",    "check": "not_null"},
+      {"field": "price",    "check": "positive"},
+      {"field": "qty",      "check": "positive"},
+      {"field": "discount", "check": "range", "min": 0.0, "max": 1.0}
+    ]
+  },
+  "destination": {
+    "type": "sqlite",
+    "database": "pipeline_output.db",
+    "table": "sales_clean",
+    "if_exists": "replace",
+    "write_rejected_to": "sales_rejected"
+  },
+  "notifications": {
+    "on_success": false,
+    "on_failure": true,
+    "channels": ["log"]
+  },
+  "logging": {
+    "level": "INFO",
+    "log_file": "logs/sales_etl.log",
+    "max_bytes": 10485760,
+    "backup_count": 5
+  }
+}
