@@ -42,11 +42,12 @@ Verify interpreter:
 python --version
 ```
 
-## 4) Install Dependencies with uv
+## 4) Initialize and install Dependencies with uv
 
 Preferred flow:
 
 ```bash
+uv init
 uv add -r requirements.txt
 uv sync
 ```

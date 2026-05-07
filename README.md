@@ -27,7 +27,8 @@ cd data_engineering_etl
 conda create -n etl-course python=3.10 -y
 conda activate etl-course
 
-# Install dependencies with uv
+# Initialize and install dependencies with uv
+uv init
 uv add -r requirements.txt
 uv sync
 ```
