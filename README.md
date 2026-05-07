@@ -79,7 +79,15 @@ data_engineering_etl/
 │   ├── 02_simple_etl_pipeline.py
 │   ├── 03_etl_with_transformations.py
 │   └── 04_etl_with_validation.py
-├── module_5_automation/
+├── module_5_incremental_loads/
+│   ├── README.md
+│   ├── data/
+│   │   └── source_orders.csv
+│   ├── 01_watermark_based_extraction.py
+│   ├── 02_upsert_patterns.py
+│   ├── 03_scd_type1_type2.py
+│   └── 04_incremental_pipeline.py
+├── module_6_automation/
 │   ├── README.md
 │   ├── config/
 │   │   └── pipeline_config.json
@@ -92,7 +100,8 @@ data_engineering_etl/
     ├── test_module_2_pandas.py
     ├── test_module_3_extraction.py
     ├── test_module_4_etl.py
-    └── test_module_5_automation.py
+    ├── test_module_5_incremental.py
+    └── test_module_6_automation.py
 ```
 
 ---
@@ -176,7 +185,26 @@ python 02_simple_etl_pipeline.py
 
 ---
 
-### Module 5 – Automation
+### Module 5 – Incremental Load Patterns
+**Goal:** Build pipelines that process only new and changed data — the foundation of scalable, production ETL.
+
+| File | Topics |
+|------|--------|
+| `01_watermark_based_extraction.py` | `pipeline_state` table, first run vs. incremental run, lookback buffer |
+| `02_upsert_patterns.py` | INSERT OR IGNORE, INSERT OR REPLACE, Staged MERGE, idempotency proofs |
+| `03_scd_type1_type2.py` | SCD Type 1 (overwrite), SCD Type 2 (`valid_from`/`valid_to`/`is_current`), point-in-time queries |
+| `04_incremental_pipeline.py` | End-to-end: watermark extract → transform → staged merge → audit log |
+
+**Run:**
+```bash
+cd module_5_incremental_loads
+python 01_watermark_based_extraction.py
+python 04_incremental_pipeline.py
+```
+
+---
+
+### Module 6 – Automation
 **Goal:** Make pipelines production-ready with scheduling, logging, orchestration, and configuration.
 
 | File | Topics |
@@ -188,7 +216,7 @@ python 02_simple_etl_pipeline.py
 
 **Run:**
 ```bash
-cd module_5_automation
+cd module_6_automation
 python 03_etl_orchestration.py
 python 04_config_driven_etl.py
 ```
@@ -229,7 +257,7 @@ pytest tests/ --cov=. -v
 
 Complete each module in order. Each lesson file can be run independently—read the code, run it, modify it, and experiment.
 
-Module 1 (Python Basics) -> Module 2 (Pandas) -> Module 3 (Data Extraction) -> Module 4 (ETL Pipelines) -> Module 5 (Automation)
+Module 1 (Python Basics) -> Module 2 (Pandas) -> Module 3 (Data Extraction) -> Module 4 (ETL Pipelines) -> Module 5 (Incremental Loads) -> Module 6 (Automation)
 
 ---
 

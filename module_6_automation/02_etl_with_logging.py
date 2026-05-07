@@ -1,5 +1,5 @@
 """
-Module 5 - Lesson 2: ETL Logging Best Practices
+Module 6 - Lesson 2: ETL Logging Best Practices
 =================================================
 Logging is the most important observability tool in production ETL.
 When a pipeline fails at 2am, logs are what you use to diagnose the problem.

@@ -1,5 +1,5 @@
 """
-Module 5 - Lesson 3: ETL Pipeline Orchestration
+Module 6 - Lesson 3: ETL Pipeline Orchestration
 ================================================
 An orchestrator manages a pipeline made up of multiple steps.
 It handles:

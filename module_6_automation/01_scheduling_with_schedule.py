@@ -1,5 +1,5 @@
 """
-Module 5 - Lesson 1: Scheduling ETL Jobs with `schedule`
+Module 6 - Lesson 1: Scheduling ETL Jobs with `schedule`
 ==========================================================
 The `schedule` library provides a simple, human-readable API for running
 functions on a schedule — without needing cron, Airflow, or any other
