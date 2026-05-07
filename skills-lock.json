@@ -25,16 +25,6 @@
       "source": "wshobson/agents",
       "sourceType": "autoskills-registry",
       "computedHash": "07b87d62993c0b6159a91d18fc8723b7f4c13d5000c0984266c207493ce641ff"
-    },
-    "sqlalchemy": {
-      "source": "bobmatnyc/claude-mpm-skills",
-      "sourceType": "autoskills-registry",
-      "computedHash": "ded166c2fb361a403bc76d9d4ca0ecd653fd42ccd1f3d535d0341e736347a1b7"
-    },
-    "sqlalchemy-alembic-expert-best-practices-code-review": {
-      "source": "wispbit-ai/skills",
-      "sourceType": "autoskills-registry",
-      "computedHash": "fe76e624bdfe84923c1a3e03f54d23d1c6216c21aa43dd7a2c06b09a93b5bb39"
     }
   }
 }
