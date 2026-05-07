@@ -561,6 +561,7 @@ def test_with_time_travel():
 
 ```python
 # test_markers.py
+import os
 import pytest
 
 @pytest.mark.slow
