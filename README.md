@@ -13,8 +13,8 @@ This course takes you from Python fundamentals to building automated, production
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.10 or higher
-- pip
+- Anaconda (Conda)
+- `uv` package manager
 
 ### Installation
 
@@ -23,19 +23,23 @@ This course takes you from Python fundamentals to building automated, production
 git clone https://github.com/hrodriguezgi/data_engineering_etl.git
 cd data_engineering_etl
 
-# Create a virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate        # On Windows: venv\Scripts\activate
+# Create Conda environment
+conda create -n etl-course python=3.10 -y
+conda activate etl-course
 
-# Install dependencies
-pip install -r requirements.txt
+# Install dependencies with uv
+uv add -r requirements.txt
+uv sync
 ```
 
 ### Verify Installation
 
 ```bash
-python -c "import pandas, requests, sqlalchemy, schedule; print('All dependencies installed!')"
+uv run pytest -q
+uv run python -c "import pandas, requests, sqlalchemy, schedule; print('All dependencies installed!')"
 ```
+
+For full setup and troubleshooting, see [docs/ENVIRONMENT_SETUP.md](docs/ENVIRONMENT_SETUP.md).
 
 ---
 
