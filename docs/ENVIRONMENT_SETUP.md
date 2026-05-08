@@ -47,8 +47,7 @@ python --version
 Preferred flow:
 
 ```bash
-uv init
-uv add -r requirements.txt
+uv pip install -r requirements.txt
 uv sync
 ```
 

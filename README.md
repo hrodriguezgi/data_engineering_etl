@@ -28,8 +28,7 @@ conda create -n etl-course python=3.10 -y
 conda activate etl-course
 
 # Initialize and install dependencies with uv
-uv init
-uv add -r requirements.txt
+uv pip install -r requirements.txt
 uv sync
 ```
 
