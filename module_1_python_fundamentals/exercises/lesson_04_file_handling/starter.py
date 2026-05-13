@@ -1,7 +1,5 @@
 """Exercise 04 starter: file handling with CSV and JSON."""
 
-import csv
-import json
 from pathlib import Path
 from typing import Dict, List
 
