@@ -27,3 +27,6 @@ venv.bak/
 
 # Exercise solutions
 solution.py
+
+# Notebook-generated data artifacts
+module_1_python_fundamentals/notebooks/data/
