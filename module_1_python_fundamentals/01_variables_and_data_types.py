@@ -18,15 +18,18 @@ Topics covered:
   - Type checking and type conversion
 """
 
+import math
+from collections import namedtuple
+
 # =============================================================================
 # 1. VARIABLE ASSIGNMENT
 # =============================================================================
 
 # Simple assignment — Python infers the type automatically
-name = "Alice"          # str
-age = 30                # int
-salary = 75_000.50      # float  (underscores improve readability in large numbers)
-is_active = True        # bool
+name = "Alice"  # str
+age = 30  # int
+salary = 75_000.50  # float  (underscores improve readability in large numbers)
+is_active = True  # bool
 
 # Multiple assignment on one line
 x, y, z = 1, 2, 3
@@ -39,8 +42,8 @@ x, y = y, x
 #   UPPER_CASE  → constants
 #   PascalCase  → class names
 
-MAX_RETRY_COUNT = 5          # constant (by convention — Python doesn't enforce it)
-database_connection_string = "sqlite:///mydb.db"   # snake_case variable
+MAX_RETRY_COUNT = 5  # constant (by convention — Python doesn't enforce it)
+database_connection_string = "sqlite:///mydb.db"  # snake_case variable
 
 print("--- Variable Assignment ---")
 # In production, avoid logging sensitive fields (e.g. salary) as plain text
@@ -65,17 +68,16 @@ total = price * (1 + tax_rate)
 print(f"float: {total:.2f}, type: {type(total)}")
 
 # Beware of floating-point precision issues!
-print(f"0.1 + 0.2 = {0.1 + 0.2}")           # Not exactly 0.3!
-print(f"round(0.1+0.2, 2) = {round(0.1 + 0.2, 2)}")   # Use round() for display
+print(f"0.1 + 0.2 = {0.1 + 0.2}")  # Not exactly 0.3!
+print(f"round(0.1+0.2, 2) = {round(0.1 + 0.2, 2)}")  # Use round() for display
 
 # Integer division vs true division
-print(f"10 / 3  = {10 / 3}")       # True division → float
-print(f"10 // 3 = {10 // 3}")      # Floor division → int
-print(f"10 % 3  = {10 % 3}")       # Modulo (remainder)
-print(f"2 ** 10 = {2 ** 10}")      # Exponentiation
+print(f"10 / 3  = {10 / 3}")  # True division → float
+print(f"10 // 3 = {10 // 3}")  # Floor division → int
+print(f"10 % 3  = {10 % 3}")  # Modulo (remainder)
+print(f"2 ** 10 = {2**10}")  # Exponentiation
 
 # Useful built-in math functions
-import math
 print(f"abs(-5) = {abs(-5)}")
 print(f"round(3.7) = {round(3.7)}")
 print(f"math.sqrt(144) = {math.sqrt(144)}")
@@ -100,18 +102,18 @@ often used for docstrings."""
 print(f"Length: {len(greeting)}")
 
 # Indexing (0-based) and slicing [start:stop:step]
-print(f"First char: {greeting[0]}")         # 'H'
-print(f"Last char: {greeting[-1]}")         # '!'
-print(f"Slice [0:5]: {greeting[0:5]}")      # 'Hello'
-print(f"Reversed: {greeting[::-1]}")        # reverse the string
+print(f"First char: {greeting[0]}")  # 'H'
+print(f"Last char: {greeting[-1]}")  # '!'
+print(f"Slice [0:5]: {greeting[0:5]}")  # 'Hello'
+print(f"Reversed: {greeting[::-1]}")  # reverse the string
 
 # Common string methods — critical for data cleaning
 raw = "  John Doe  "
-print(f"strip(): '{raw.strip()}'")          # remove leading/trailing whitespace
+print(f"strip(): '{raw.strip()}'")  # remove leading/trailing whitespace
 print(f"upper(): '{raw.strip().upper()}'")
 print(f"lower(): '{raw.strip().lower()}'")
 print(f"replace(): '{greeting.replace('World', 'Python')}'")
-print(f"split(): {greeting.split(', ')}")   # returns a list
+print(f"split(): {greeting.split(', ')}")  # returns a list
 print(f"startswith: {greeting.startswith('Hello')}")
 print(f"endswith: {greeting.endswith('!')}")
 print(f"in operator: {'World' in greeting}")
@@ -168,10 +170,12 @@ falsy_values = [False, None, 0, 0.0, "", [], {}, set()]
 for val in falsy_values:
     print(f"bool({val!r:10}) = {bool(val)}")
 
+
 # Practical use: checking for missing/empty data
 def is_missing(value):
     """Returns True if value is None, empty string, or empty collection."""
-    return not value   # uses truthiness
+    return not value  # uses truthiness
+
 
 print(f"is_missing(None)  = {is_missing(None)}")
 print(f"is_missing('')    = {is_missing('')}")
@@ -196,10 +200,10 @@ print(f"Last: {products[-1]}")
 print(f"Slice [1:3]: {products[1:3]}")
 
 # Modification
-products.append("webcam")                   # add to end
-products.insert(1, "charger")              # insert at index
-products.remove("mouse")                   # remove by value
-popped = products.pop()                    # remove and return last item
+products.append("webcam")  # add to end
+products.insert(1, "charger")  # insert at index
+products.remove("mouse")  # remove by value
+popped = products.pop()  # remove and return last item
 print(f"After modifications: {products}")
 
 # List operations
@@ -208,8 +212,8 @@ print(f"Length: {len(numbers)}")
 print(f"Sum: {sum(numbers)}")
 print(f"Min: {min(numbers)}")
 print(f"Max: {max(numbers)}")
-print(f"Sorted: {sorted(numbers)}")         # returns new sorted list
-numbers.sort()                              # sorts in place
+print(f"Sorted: {sorted(numbers)}")  # returns new sorted list
+numbers.sort()  # sorts in place
 print(f"After sort(): {numbers}")
 print(f"Count of 5: {numbers.count(5)}")
 print(f"Index of 9: {numbers.index(9)}")
@@ -236,9 +240,9 @@ print("\n--- Tuples ---")
 
 # Tuples are ordered, IMMUTABLE sequences. Use them for fixed data like
 # coordinates, RGB values, database rows, or function return values.
-point = (10.5, 20.3)            # 2D coordinate
-rgb_red = (255, 0, 0)           # color value
-db_row = (1001, "Alice", 250.0) # database record
+point = (10.5, 20.3)  # 2D coordinate
+rgb_red = (255, 0, 0)  # color value
+db_row = (1001, "Alice", 250.0)  # database record
 
 # Access same as list, but no modification methods
 print(f"x={point[0]}, y={point[1]}")
@@ -256,7 +260,6 @@ coordinates_map = {
 print(f"Lookup (0,0): {coordinates_map[(0, 0)]}")
 
 # Named tuples — tuples with field names (great for structured data)
-from collections import namedtuple
 Product = namedtuple("Product", ["id", "name", "price"])
 p = Product(id=101, name="laptop", price=999.99)
 print(f"Named tuple: {p.name} costs ${p.price}")
@@ -276,7 +279,7 @@ record = {
     "order_id": 1001,
     "customer": "Alice",
     "amount": 250.00,
-    "items": ["laptop", "mouse"],   # value can be a list
+    "items": ["laptop", "mouse"],  # value can be a list
     "metadata": {"source": "web"},  # value can be a nested dict
 }
 
@@ -285,9 +288,9 @@ print(f"customer: {record['customer']}")
 print(f"Using .get() with default: {record.get('missing_key', 'N/A')}")
 
 # Modification
-record["status"] = "shipped"       # add new key
-record["amount"] = 260.00          # update existing key
-del record["metadata"]             # delete a key
+record["status"] = "shipped"  # add new key
+record["amount"] = 260.00  # update existing key
+del record["metadata"]  # delete a key
 print(f"Updated record: {record}")
 
 # Iterating over dicts
@@ -312,7 +315,7 @@ print(f"\nPrice map: {price_map}")
 # Merging dicts (Python 3.9+: use | operator; 3.5+: use **)
 defaults = {"region": "US", "currency": "USD", "tax_rate": 0.08}
 overrides = {"region": "EU", "currency": "EUR"}
-merged = {**defaults, **overrides}    # overrides wins for duplicate keys
+merged = {**defaults, **overrides}  # overrides wins for duplicate keys
 print(f"Merged: {merged}")
 
 
@@ -325,18 +328,26 @@ print("\n--- Sets ---")
 # Sets are unordered collections of UNIQUE elements. They are extremely fast
 # for membership testing and de-duplication operations.
 
-raw_categories = ["Electronics", "Clothing", "Electronics", "Food", "Clothing", "Food", "Food"]
-unique_categories = set(raw_categories)   # automatically de-duplicates
+raw_categories = [
+    "Electronics",
+    "Clothing",
+    "Electronics",
+    "Food",
+    "Clothing",
+    "Food",
+    "Food",
+]
+unique_categories = set(raw_categories)  # automatically de-duplicates
 print(f"Unique categories: {unique_categories}")
 
 # Set operations (like mathematical set operations)
 a = {1, 2, 3, 4, 5}
 b = {3, 4, 5, 6, 7}
 
-print(f"Union (a | b):        {a | b}")          # all elements in either
-print(f"Intersection (a & b): {a & b}")          # elements in both
-print(f"Difference (a - b):   {a - b}")          # in a but not b
-print(f"Symmetric diff (a^b): {a ^ b}")          # in either but not both
+print(f"Union (a | b):        {a | b}")  # all elements in either
+print(f"Intersection (a & b): {a & b}")  # elements in both
+print(f"Difference (a - b):   {a - b}")  # in a but not b
+print(f"Symmetric diff (a^b): {a ^ b}")  # in either but not both
 
 # Membership test — O(1) average, much faster than list.
 valid_statuses = {"pending", "processing", "shipped", "delivered", "cancelled"}
@@ -363,8 +374,8 @@ print(f"isinstance(42, (int, float)) = {isinstance(value, (int, float))}")
 
 # Type conversion (casting)
 # int() — truncates floats, parses numeric strings
-print(f"int(3.9) = {int(3.9)}")          # 3 (truncates, does NOT round)
-print(f"int('42') = {int('42')}")        # 42
+print(f"int(3.9) = {int(3.9)}")  # 3 (truncates, does NOT round)
+print(f"int('42') = {int('42')}")  # 42
 
 # float() — converts to float
 print(f"float('3.14') = {float('3.14')}")
@@ -383,6 +394,7 @@ my_list = list(my_tuple)
 my_set = set(my_list)
 print(f"tuple→list: {my_list}, list→set: {my_set}")
 
+
 # IMPORTANT: Safe conversion with error handling
 def safe_to_int(value, default=None):
     """Convert value to int; return default if conversion fails."""
@@ -390,6 +402,7 @@ def safe_to_int(value, default=None):
         return int(value)
     except (ValueError, TypeError):
         return default
+
 
 print(f"\nsafe_to_int('42')   = {safe_to_int('42')}")
 print(f"safe_to_int('abc')  = {safe_to_int('abc', default=-1)}")

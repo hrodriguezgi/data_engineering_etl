@@ -18,7 +18,6 @@ Topics covered:
 """
 
 import logging
-import traceback
 from pathlib import Path
 from typing import Optional
 
@@ -32,6 +31,7 @@ print("--- try / except ---")
 # Without error handling — this would crash the program:
 # result = int("not_a_number")  # ValueError!
 
+
 # With error handling:
 def safe_parse_int(value) -> Optional[int]:
     """Parse value to int, return None if it fails."""
@@ -44,6 +44,7 @@ def safe_parse_int(value) -> Optional[int]:
         # TypeError is raised when the value can't be converted at all (e.g., None)
         return None
 
+
 test_cases = ["42", "3.14", "abc", None, True, "  100  "]
 for case in test_cases:
     result = safe_parse_int(case)
@@ -55,6 +56,7 @@ for case in test_cases:
 # =============================================================================
 
 print("\n--- Multiple Exception Types ---")
+
 
 # Catch multiple exceptions in one line
 def read_file_safe(filepath: str) -> Optional[str]:
@@ -73,8 +75,10 @@ def read_file_safe(filepath: str) -> Optional[str]:
         print(f"  ERROR: IO error reading {filepath}: {e}")
         return None
 
+
 content = read_file_safe("nonexistent_file.txt")
 content = read_file_safe("/etc/shadow")  # likely permission denied
+
 
 # Catching Exception — the base class for most exceptions (not SystemExit, etc.)
 # Use this as a last resort; always prefer specific exception types.
@@ -85,6 +89,7 @@ def divide_safe(a: float, b: float) -> Optional[float]:
     except ZeroDivisionError:
         print("  Cannot divide by zero!")
         return None
+
 
 print(f"\n  10 / 2 = {divide_safe(10, 2)}")
 print(f"  10 / 0 = {divide_safe(10, 0)}")
@@ -101,6 +106,7 @@ print("\n--- else and finally ---")
 #   except:  run this if an exception occurred
 #   else:    run this if NO exception occurred (optional)
 #   finally: run this ALWAYS, exception or not (optional, great for cleanup)
+
 
 def process_record(record: dict) -> dict:
     """
@@ -129,7 +135,7 @@ def process_record(record: dict) -> dict:
 
     else:
         # Only runs if no exception was raised in try
-        print(f"  [else] Record processed successfully")
+        print("  [else] Record processed successfully")
         result["status"] = "success"
 
     finally:
@@ -139,9 +145,10 @@ def process_record(record: dict) -> dict:
 
     return result
 
+
 records = [
     {"id": 1, "amount": 250.00},
-    {"id": 2, "amount": -50.00},   # will raise ValueError
+    {"id": 2, "amount": -50.00},  # will raise ValueError
     {"id": 3, "amount": 175.50},
 ]
 
@@ -156,6 +163,7 @@ for rec in records:
 
 print("--- Raising Exceptions ---")
 
+
 # raise — explicitly raise an exception
 def validate_age(age) -> int:
     """Validate and return age as an integer."""
@@ -168,6 +176,7 @@ def validate_age(age) -> int:
         raise ValueError(f"Age is unrealistically high: {age}")
     return age
 
+
 for val in [25, -5, 200, "old", None]:
     try:
         result = validate_age(val)
@@ -175,10 +184,12 @@ for val in [25, -5, 200, "old", None]:
     except (TypeError, ValueError) as e:
         print(f"  validate_age({val!r}) ERROR: {e}")
 
+
 # Exception chaining — preserve original context
 def load_config(path: str) -> dict:
     """Load a JSON config file, wrapping errors with context."""
     import json
+
     try:
         with open(path) as f:
             return json.load(f)
@@ -187,6 +198,7 @@ def load_config(path: str) -> dict:
         raise RuntimeError(f"Config file not found: {path}") from e
     except json.JSONDecodeError as e:
         raise ValueError(f"Invalid JSON in config file: {path}") from e
+
 
 try:
     load_config("missing_config.json")
@@ -204,39 +216,54 @@ print("\n--- Custom Exceptions ---")
 # Custom exceptions make code more readable and allow callers to catch
 # pipeline-specific errors without catching generic Exception.
 
+
 class ETLError(Exception):
     """Base class for all ETL pipeline errors."""
+
     pass
+
 
 class ExtractionError(ETLError):
     """Raised when data extraction fails."""
+
     def __init__(self, source: str, reason: str):
         self.source = source
         self.reason = reason
         super().__init__(f"Extraction failed from '{source}': {reason}")
 
+
 class TransformationError(ETLError):
     """Raised when a transformation step fails."""
+
     def __init__(self, step: str, record_id, reason: str):
         self.step = step
         self.record_id = record_id
         self.reason = reason
-        super().__init__(f"Transformation '{step}' failed for record {record_id}: {reason}")
+        super().__init__(
+            f"Transformation '{step}' failed for record {record_id}: {reason}"
+        )
+
 
 class ValidationError(ETLError):
     """Raised when data fails validation rules."""
+
     def __init__(self, field: str, value, rule: str):
         self.field = field
         self.value = value
         self.rule = rule
-        super().__init__(f"Validation failed: field='{field}', value={value!r}, rule='{rule}'")
+        super().__init__(
+            f"Validation failed: field='{field}', value={value!r}, rule='{rule}'"
+        )
+
 
 class LoadError(ETLError):
     """Raised when data loading fails."""
+
     def __init__(self, destination: str, reason: str):
         self.destination = destination
         self.reason = reason
         super().__init__(f"Load failed to '{destination}': {reason}")
+
 
 # Demonstrate custom exceptions
 def extract_from_source(source: str) -> list:
@@ -244,14 +271,17 @@ def extract_from_source(source: str) -> list:
         raise ExtractionError(source, "Connection refused (timeout after 30s)")
     return [{"id": 1, "amount": 100.0}]
 
+
 def transform_record(record: dict, step: str = "normalize") -> dict:
     if record.get("amount") is None:
         raise TransformationError(step, record.get("id"), "amount is None")
     return {**record, "amount": float(record["amount"])}
 
+
 def validate_record(record: dict) -> None:
     if record["amount"] <= 0:
         raise ValidationError("amount", record["amount"], "must be positive")
+
 
 scenarios = [
     ("bad_source", None),
@@ -301,8 +331,7 @@ logger.setLevel(logging.DEBUG)  # capture ALL levels from DEBUG up
 console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.DEBUG)
 console_formatter = logging.Formatter(
-    fmt="%(asctime)s [%(levelname)-8s] %(name)s: %(message)s",
-    datefmt="%H:%M:%S"
+    fmt="%(asctime)s [%(levelname)-8s] %(name)s: %(message)s", datefmt="%H:%M:%S"
 )
 console_handler.setFormatter(console_formatter)
 
@@ -331,6 +360,7 @@ except ZeroDivisionError:
 # =============================================================================
 
 print("\n--- Production Logging Setup ---")
+
 
 def setup_etl_logger(
     name: str,
@@ -382,6 +412,7 @@ def setup_etl_logger(
 # =============================================================================
 
 print("\n--- Structured ETL Logging ---")
+
 
 class ETLLogger:
     """
@@ -480,9 +511,7 @@ if __name__ == "__main__":
             rejected += 1
 
     pipeline_logger.log_transform(
-        rows_in=len(all_records),
-        rows_out=len(transformed),
-        rows_rejected=rejected
+        rows_in=len(all_records), rows_out=len(transformed), rows_rejected=rejected
     )
 
     # Simulate load
