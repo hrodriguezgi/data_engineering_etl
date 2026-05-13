@@ -5,7 +5,6 @@ Build reusable ETL-style functions and compose them into a mini pipeline.
 
 ## Files
 - `starter.py`: template to complete.
-- `solution.py`: one reference implementation.
 
 ## Tasks
 1. Implement `extract_active(records)` to keep only active records.

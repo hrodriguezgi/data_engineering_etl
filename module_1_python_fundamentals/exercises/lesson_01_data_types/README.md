@@ -9,7 +9,6 @@ Clean and summarize a small set of raw sales records while practicing:
 
 ## Files
 - `starter.py`: your template to complete.
-- `solution.py`: one reference implementation.
 
 ## Acceptance Criteria
 Your implementation should:

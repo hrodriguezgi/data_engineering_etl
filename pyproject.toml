@@ -51,7 +51,7 @@ line-length = 120
 indent-width = 4
 
 [tool.ruff.lint]
-ignore = ["E203", "E501", "E731"]
+ignore = ["E203", "E731"]
 
 [tool.ruff.format]
 # Like Black, use double quotes for strings.

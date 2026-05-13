@@ -5,7 +5,6 @@ Route records to different outputs using conditionals and loops.
 
 ## Files
 - `starter.py`: your template to complete.
-- `solution.py`: one reference implementation.
 
 ## Business Rules
 Given each record:

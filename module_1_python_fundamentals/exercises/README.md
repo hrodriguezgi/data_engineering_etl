@@ -12,4 +12,3 @@ This folder contains hands-on exercises aligned with Module 1 lessons.
 Each exercise folder includes:
 - `README.md` with goal and acceptance criteria
 - `starter.py` for students
-- `solution.py` for instructors/self-check

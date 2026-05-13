@@ -5,7 +5,6 @@ Implement resilient record parsing with exception handling and basic logging.
 
 ## Files
 - `starter.py`: template to complete.
-- `solution.py`: one reference implementation.
 
 ## Tasks
 1. Implement `safe_parse_amount(value)` with `try/except`.

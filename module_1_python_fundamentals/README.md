@@ -23,11 +23,11 @@ This module covers the Python concepts you'll use most in data engineering. Work
   - `notebooks/04_guided_file_handling.ipynb`
   - `notebooks/05_guided_error_handling.ipynb`
 - Exercises:
-  - `exercises/lesson_01_data_types/` (`starter.py`, `solution.py`)
-  - `exercises/lesson_02_control_flow/` (`starter.py`, `solution.py`)
-  - `exercises/lesson_03_functions/` (`starter.py`, `solution.py`)
-  - `exercises/lesson_04_file_handling/` (`starter.py`, `solution.py`)
-  - `exercises/lesson_05_error_handling/` (`starter.py`, `solution.py`)
+  - `exercises/lesson_01_data_types/` (`starter.py`)
+  - `exercises/lesson_02_control_flow/` (`starter.py`)
+  - `exercises/lesson_03_functions/` (`starter.py`)
+  - `exercises/lesson_04_file_handling/` (`starter.py`)
+  - `exercises/lesson_05_error_handling/` (`starter.py`)
 
 ## How to Run
 

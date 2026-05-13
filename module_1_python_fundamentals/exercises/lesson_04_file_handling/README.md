@@ -5,7 +5,6 @@ Practice reading and writing files for a small ETL-like workflow.
 
 ## Files
 - `starter.py`: template to complete.
-- `solution.py`: one reference implementation.
 
 ## Tasks
 1. Read `sales_input.csv` from the same folder.
