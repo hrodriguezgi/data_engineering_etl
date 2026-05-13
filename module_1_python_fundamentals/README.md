@@ -45,3 +45,4 @@ python -i 01_variables_and_data_types.py
 - After running a file, open the Python REPL and experiment with the concepts.
 - The `if __name__ == '__main__':` block at the bottom of each file shows a practical demonstration of the concepts covered.
 
+
