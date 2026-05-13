@@ -51,11 +51,25 @@ data_engineering_etl/
 ├── requirements.txt
 ├── module_1_python_fundamentals/
 │   ├── README.md
+│   ├── 00_intro_python_data_engineering.py
 │   ├── 01_variables_and_data_types.py
 │   ├── 02_control_flow.py
 │   ├── 03_functions.py
 │   ├── 04_file_handling.py
-│   └── 05_error_handling.py
+│   ├── 05_error_handling.py
+│   ├── notebooks/
+│   │   ├── 00_guided_intro_python_data_engineering.ipynb
+│   │   ├── 01_guided_variables_and_data_types.ipynb
+│   │   ├── 02_guided_control_flow.ipynb
+│   │   ├── 03_guided_functions.ipynb
+│   │   ├── 04_guided_file_handling.ipynb
+│   │   └── 05_guided_error_handling.ipynb
+│   └── exercises/
+│       ├── lesson_01_data_types/
+│       ├── lesson_02_control_flow/
+│       ├── lesson_03_functions/
+│       ├── lesson_04_file_handling/
+│       └── lesson_05_error_handling/
 ├── module_2_pandas/
 │   ├── README.md
 │   ├── data/
@@ -108,11 +122,16 @@ data_engineering_etl/
 
 | File | Topics |
 |------|--------|
+| `00_intro_python_data_engineering.py` | Python in data engineering, ETL phases, mini end-to-end ETL demo |
 | `01_variables_and_data_types.py` | Variables, strings, numbers, booleans, lists, dicts, tuples, sets, type conversion |
 | `02_control_flow.py` | if/elif/else, for/while loops, comprehensions, break/continue |
 | `03_functions.py` | def, args, kwargs, default params, lambda, map/filter, decorators, generators |
 | `04_file_handling.py` | Reading/writing text, CSV, JSON; context managers |
 | `05_error_handling.py` | try/except/finally, custom exceptions, logging |
+
+**Practice assets:**
+- Notebooks: `notebooks/00_guided_intro_python_data_engineering.ipynb`, `notebooks/01_guided_variables_and_data_types.ipynb`, `notebooks/02_guided_control_flow.ipynb`, `notebooks/03_guided_functions.ipynb`, `notebooks/04_guided_file_handling.ipynb`, `notebooks/05_guided_error_handling.ipynb`
+- Exercises: `exercises/lesson_01_data_types/`, `exercises/lesson_02_control_flow/`, `exercises/lesson_03_functions/`, `exercises/lesson_04_file_handling/`, `exercises/lesson_05_error_handling/`
 
 **Run:**
 ```bash

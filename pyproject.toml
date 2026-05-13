@@ -4,11 +4,13 @@ version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
     "faker>=19.0.0",
+    "flake8>=7.3.0",
     "openpyxl>=3.1.0",
     "pandas>=2.0.0",
     "pytest>=7.4.0",
     "python-dotenv>=1.0.0",
     "requests>=2.31.0",
+    "ruff>=0.15.12",
     "schedule>=1.2.0",
     "sqlalchemy>=2.0.0",
 ]
