@@ -17,7 +17,6 @@ Topics covered:
 
 import csv
 import json
-import os
 from pathlib import Path
 
 
@@ -26,9 +25,9 @@ from pathlib import Path
 # =============================================================================
 
 # Using pathlib for robust, cross-platform file paths
-SCRIPT_DIR = Path(__file__).parent        # directory containing this script
-DATA_DIR = SCRIPT_DIR / "demo_data"       # subdirectory for demo files
-DATA_DIR.mkdir(exist_ok=True)             # create it if it doesn't exist
+SCRIPT_DIR = Path(__file__).parent  # directory containing this script
+DATA_DIR = SCRIPT_DIR / "demo_data"  # subdirectory for demo files
+DATA_DIR.mkdir(exist_ok=True)  # create it if it doesn't exist
 
 print(f"Script directory: {SCRIPT_DIR}")
 print(f"Data directory:   {DATA_DIR}")
@@ -57,7 +56,7 @@ lines_to_write = ["apple\n", "banana\n", "cherry\n"]
 multi_file = DATA_DIR / "fruits.txt"
 
 with open(multi_file, "w", encoding="utf-8") as f:
-    f.writelines(lines_to_write)   # writelines() does NOT add newlines automatically!
+    f.writelines(lines_to_write)  # writelines() does NOT add newlines automatically!
 
 print(f"Written fruits to: {multi_file}")
 
@@ -76,7 +75,7 @@ print(f"Content:\n{content}")
 
 # Method 2: readlines() — reads all lines into a list of strings
 with open(text_file, "r", encoding="utf-8") as f:
-    lines = f.readlines()   # each string includes the trailing \n
+    lines = f.readlines()  # each string includes the trailing \n
 print(f"readlines() result: {lines}")
 
 # Strip the newline characters
@@ -108,9 +107,9 @@ log_file = DATA_DIR / "etl_log.txt"
 
 for i in range(3):
     with open(log_file, "a", encoding="utf-8") as f:
-        f.write(f"[RUN {i+1}] Pipeline completed successfully\n")
+        f.write(f"[RUN {i + 1}] Pipeline completed successfully\n")
 
-print(f"Log file written 3 times:")
+print("Log file written 3 times:")
 with open(log_file, "r", encoding="utf-8") as f:
     print(f.read())
 
@@ -126,18 +125,42 @@ sales_csv = DATA_DIR / "sales_demo.csv"
 # Define the data
 fieldnames = ["order_id", "customer", "product", "quantity", "unit_price"]
 rows = [
-    {"order_id": 1001, "customer": "Alice", "product": "Laptop", "quantity": 1, "unit_price": 999.99},
-    {"order_id": 1002, "customer": "Bob",   "product": "Mouse",  "quantity": 3, "unit_price": 29.99},
-    {"order_id": 1003, "customer": "Carol", "product": "Monitor","quantity": 2, "unit_price": 349.99},
-    {"order_id": 1004, "customer": "Dave",  "product": "Keyboard","quantity": 1,"unit_price": 79.99},
+    {
+        "order_id": 1001,
+        "customer": "Alice",
+        "product": "Laptop",
+        "quantity": 1,
+        "unit_price": 999.99,
+    },
+    {
+        "order_id": 1002,
+        "customer": "Bob",
+        "product": "Mouse",
+        "quantity": 3,
+        "unit_price": 29.99,
+    },
+    {
+        "order_id": 1003,
+        "customer": "Carol",
+        "product": "Monitor",
+        "quantity": 2,
+        "unit_price": 349.99,
+    },
+    {
+        "order_id": 1004,
+        "customer": "Dave",
+        "product": "Keyboard",
+        "quantity": 1,
+        "unit_price": 79.99,
+    },
 ]
 
 # Write CSV using DictWriter
 with open(sales_csv, "w", newline="", encoding="utf-8") as f:
     # newline="" is important on Windows to prevent extra blank lines
     writer = csv.DictWriter(f, fieldnames=fieldnames)
-    writer.writeheader()      # writes the header row
-    writer.writerows(rows)    # writes all data rows
+    writer.writeheader()  # writes the header row
+    writer.writerows(rows)  # writes all data rows
 
 print(f"Written CSV: {sales_csv}")
 
@@ -159,7 +182,7 @@ with open(sales_csv, "r", encoding="utf-8") as f:
 print("\nReading CSV with reader (raw rows):")
 with open(sales_csv, "r", encoding="utf-8") as f:
     reader = csv.reader(f)
-    header = next(reader)    # consume and store the header row
+    header = next(reader)  # consume and store the header row
     print(f"  Header: {header}")
     for row in reader:
         print(f"  Row: {row}")
@@ -206,24 +229,20 @@ print("\n--- JSON Files ---")
 pipeline_config = {
     "pipeline_name": "sales_etl",
     "version": "1.0",
-    "source": {
-        "type": "csv",
-        "path": "data/sales.csv",
-        "encoding": "utf-8"
-    },
+    "source": {"type": "csv", "path": "data/sales.csv", "encoding": "utf-8"},
     "transformations": [
         {"type": "drop_nulls", "columns": ["amount"]},
         {"type": "cast", "column": "amount", "to": "float"},
-        {"type": "filter", "condition": "amount > 0"}
+        {"type": "filter", "condition": "amount > 0"},
     ],
     "destination": {
         "type": "sqlite",
         "database": "output.db",
         "table": "cleaned_sales",
-        "if_exists": "replace"
+        "if_exists": "replace",
     },
     "active": True,
-    "max_rows": None   # None becomes null in JSON
+    "max_rows": None,  # None becomes null in JSON
 }
 
 config_file = DATA_DIR / "pipeline_config.json"
@@ -245,7 +264,7 @@ with open(config_file, "r", encoding="utf-8") as f:
 
 print("Reading JSON config:")
 with open(config_file, "r", encoding="utf-8") as f:
-    loaded_config = json.load(f)   # deserialize JSON → Python dict
+    loaded_config = json.load(f)  # deserialize JSON → Python dict
 
 # Accessing nested values
 print(f"Pipeline: {loaded_config['pipeline_name']}")
@@ -264,7 +283,7 @@ for t in loaded_config["transformations"]:
 
 # JSON strings (for API responses, etc.)
 json_string = '{"status": "ok", "count": 42, "records": [1, 2, 3]}'
-data = json.loads(json_string)    # loads() for string → dict
+data = json.loads(json_string)  # loads() for string → dict
 print(f"\njson.loads result: {data}")
 
 back_to_string = json.dumps(data, indent=2)  # dumps() for dict → string
@@ -345,14 +364,16 @@ if __name__ == "__main__":
     with open(source_path, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            records.append({
-                "order_id": int(row["order_id"]),
-                "customer": row["customer"].strip(),
-                "product": row["product"].strip(),
-                "quantity": int(row["quantity"]),
-                "unit_price": float(row["unit_price"]),
-                "total": round(int(row["quantity"]) * float(row["unit_price"]), 2),
-            })
+            records.append(
+                {
+                    "order_id": int(row["order_id"]),
+                    "customer": row["customer"].strip(),
+                    "product": row["product"].strip(),
+                    "quantity": int(row["quantity"]),
+                    "unit_price": float(row["unit_price"]),
+                    "total": round(int(row["quantity"]) * float(row["unit_price"]), 2),
+                }
+            )
     print(f"[2] Loaded {len(records)} records from {source_path.name}")
 
     # Step 3: Write transformed output CSV
@@ -379,5 +400,6 @@ if __name__ == "__main__":
     # Cleanup demo files
     print("\n[CLEANUP] Removing demo data directory...")
     import shutil
+
     shutil.rmtree(DATA_DIR)
     print("Done.")

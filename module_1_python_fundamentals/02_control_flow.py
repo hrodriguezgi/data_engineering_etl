@@ -55,12 +55,13 @@ else:
     grade = "C or below"
 print(f"Score {score} = Grade {grade}")
 
+
 # Checking types and None
 def describe_value(val):
     """Describe an arbitrary value — common in data validation."""
     if val is None:
         return "null/missing"
-    elif isinstance(val, bool):   # check bool before int (bool is subclass of int!)
+    elif isinstance(val, bool):  # check bool before int (bool is subclass of int!)
         return f"boolean: {val}"
     elif isinstance(val, int):
         return f"integer: {val}"
@@ -72,6 +73,7 @@ def describe_value(val):
         return f"sequence with {len(val)} items"
     else:
         return f"other type: {type(val).__name__}"
+
 
 for v in [None, True, 42, 3.14, "hello", [1, 2, 3]]:
     print(f"  {describe_value(v)}")
@@ -91,7 +93,7 @@ for product in products:
 
 # enumerate() — get both index and value
 print("\nIndexed products:")
-for i, product in enumerate(products, start=1):   # start=1 for 1-based index
+for i, product in enumerate(products, start=1):  # start=1 for 1-based index
     print(f"  {i}. {product}")
 
 # zip() — iterate over multiple sequences in parallel
@@ -107,8 +109,8 @@ for key, value in record.items():
     print(f"  {key}: {value}")
 
 # range() — generate a sequence of numbers
-print("\nrange(5):", list(range(5)))          # [0, 1, 2, 3, 4]
-print("range(1,6):", list(range(1, 6)))      # [1, 2, 3, 4, 5]
+print("\nrange(5):", list(range(5)))  # [0, 1, 2, 3, 4]
+print("range(1,6):", list(range(1, 6)))  # [1, 2, 3, 4, 5]
 print("range(0,10,2):", list(range(0, 10, 2)))  # [0, 2, 4, 6, 8] (step=2)
 
 # Processing rows in a dataset (simulated)
@@ -138,14 +140,16 @@ print("\n--- while loops ---")
 count = 0
 while count < 5:
     print(f"  count = {count}")
-    count += 1   # IMPORTANT: always update the condition variable!
+    count += 1  # IMPORTANT: always update the condition variable!
 
 # Simulating a batch processing loop
 batch_size = 3
 total_records = 10
 offset = 0
 
-print(f"\nSimulated batch processing ({total_records} records, batch_size={batch_size}):")
+print(
+    f"\nSimulated batch processing ({total_records} records, batch_size={batch_size}):"
+)
 while offset < total_records:
     end = min(offset + batch_size, total_records)
     print(f"  Processing records {offset} to {end - 1}")
@@ -160,7 +164,7 @@ success = False
 while not success and attempts < max_attempts:
     attempts += 1
     print(f"  Attempt {attempts}...")
-    if attempts == 2:   # simulate success on attempt 2
+    if attempts == 2:  # simulate success on attempt 2
         success = True
 
 if success:
@@ -181,7 +185,7 @@ numbers = [5, 12, -3, 8, -1, 20]
 for num in numbers:
     if num < 0:
         print(f"  Found first negative: {num}")
-        break   # stop searching once found
+        break  # stop searching once found
     print(f"  {num} is positive")
 
 # continue — skip the rest of the current iteration, go to next
@@ -191,7 +195,7 @@ total = 0
 for item in data:
     if item is None:
         print("  Skipping None value")
-        continue    # skip None, go to next iteration
+        continue  # skip None, go to next iteration
     total += item
 print(f"  Total (ignoring None): {total}")
 
@@ -223,14 +227,14 @@ print("\n--- List Comprehensions ---")
 # Traditional for-loop approach:
 squares_loop = []
 for n in range(1, 6):
-    squares_loop.append(n ** 2)
+    squares_loop.append(n**2)
 
 # Equivalent list comprehension:
-squares_comp = [n ** 2 for n in range(1, 6)]
+squares_comp = [n**2 for n in range(1, 6)]
 print(f"Squares: {squares_comp}")
 
 # With a filter condition
-even_squares = [n ** 2 for n in range(1, 11) if n % 2 == 0]
+even_squares = [n**2 for n in range(1, 11) if n % 2 == 0]
 print(f"Even squares: {even_squares}")
 
 # String transformation
@@ -281,7 +285,13 @@ inverted = {v: k for k, v in original.items()}
 print(f"Inverted dict: {inverted}")
 
 # Extract specific keys from a dict
-full_record = {"id": 1, "name": "Alice", "email": "alice@example.com", "age": 30, "city": "NY"}
+full_record = {
+    "id": 1,
+    "name": "Alice",
+    "email": "alice@example.com",
+    "age": 30,
+    "city": "NY",
+}
 keep_keys = {"id", "name", "city"}
 subset = {k: v for k, v in full_record.items() if k in keep_keys}
 print(f"Subset: {subset}")
@@ -317,13 +327,13 @@ print("\n--- Generator Expressions ---")
 # in memory at once. This is critical when processing large datasets.
 
 # List comprehension — creates the entire list in memory immediately
-squares_list = [n ** 2 for n in range(10)]
+squares_list = [n**2 for n in range(10)]
 
 # Generator expression — computes values on-demand
-squares_gen = (n ** 2 for n in range(10))
+squares_gen = (n**2 for n in range(10))
 
 print(f"List: {squares_list}")
-print(f"Generator: {squares_gen}")   # just shows <generator object>
+print(f"Generator: {squares_gen}")  # just shows <generator object>
 print(f"Generator sum (no full list in memory): {sum(squares_gen)}")
 
 # Practical example: summing a large file without loading everything into memory
@@ -349,7 +359,7 @@ if len(data_list) > 3:
 
 # With walrus: compute once, use in condition and body
 if (n := len(data_list)) > 3:
-    print(f"Long list with {n} items")   # n already computed
+    print(f"Long list with {n} items")  # n already computed
 
 # Common use case: reading a file in chunks (simulated here)
 print("\nSimulated chunked reading with walrus:")
@@ -373,13 +383,13 @@ if __name__ == "__main__":
     # Simulated raw data records with various quality issues
     raw_data = [
         {"id": 1, "region": "North", "amount": 1500.00, "status": "complete"},
-        {"id": 2, "region": "South", "amount": None,    "status": "complete"},
-        {"id": 3, "region": "North", "amount": 200.00,  "status": "cancelled"},
-        {"id": 4, "region": "East",  "amount": 9999.00, "status": "complete"},  # outlier
-        {"id": 5, "region": "West",  "amount": 450.00,  "status": "complete"},
-        {"id": 6, "region": "South", "amount": 325.00,  "status": "complete"},
-        {"id": 7, "region": "East",  "amount": -50.00,  "status": "complete"},  # invalid
-        {"id": 8, "region": "North", "amount": 780.00,  "status": "pending"},
+        {"id": 2, "region": "South", "amount": None, "status": "complete"},
+        {"id": 3, "region": "North", "amount": 200.00, "status": "cancelled"},
+        {"id": 4, "region": "East", "amount": 9999.00, "status": "complete"},  # outlier
+        {"id": 5, "region": "West", "amount": 450.00, "status": "complete"},
+        {"id": 6, "region": "South", "amount": 325.00, "status": "complete"},
+        {"id": 7, "region": "East", "amount": -50.00, "status": "complete"},  # invalid
+        {"id": 8, "region": "North", "amount": 780.00, "status": "pending"},
     ]
 
     # Route records into different buckets using control flow
