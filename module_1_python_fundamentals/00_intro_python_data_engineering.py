@@ -66,11 +66,11 @@ def extract() -> List[Dict]:
     """Simulate extraction from a raw source."""
     return [
         {"id": 1, "customer": "Alice", "amount": "250.00", "country": "co"},
-        {"id": 2, "customer": "Bob", "amount": "-30", "country": "mx"},
+        {"id": 2, "customer": "Bob", "amount": "-30", "country": "mx"},  # *
         {"id": 3, "customer": "Carol ", "amount": "175.5", "country": "co"},
-        {"id": 4, "customer": "", "amount": "invalid", "country": "pe"},
-        {"id": 5, "customer": " John ", "amount": "120.00", "country": "cl"},
-        {"id": 6, "customer": "  Charlie", "amount": "90.00", "country": "mx"},
+        {"id": 4, "customer": "", "amount": "invalid", "country": "pe"},  # *
+        {"id": 5, "customer": " JOHN ", "amount": "120.00", "country": "cl"},
+        {"id": 6, "customer": "  charlie", "amount": "90.00", "country": "mx"},
     ]
 
 
@@ -108,9 +108,7 @@ def load(records: List[Dict]) -> int:
     """Simulate loading records into a destination."""
     print("Records ready for destination:")
     for row in records:
-        print(
-            f"  id={row['id']}, customer={row['customer']}, amount={row['amount']}, country={row['country']}"
-        )
+        print(f"  id={row['id']}, customer={row['customer']}, amount={row['amount']}, country={row['country']}")
     return len(records)
 
 
@@ -122,6 +120,4 @@ if __name__ == "__main__":
     trusted = validate(clean)
     loaded_count = load(trusted)
 
-    print(
-        f"\nSummary: extracted={len(raw)}, trusted={len(trusted)}, loaded={loaded_count}"
-    )
+    print(f"\nSummary: extracted={len(raw)}, trusted={len(trusted)}, loaded={loaded_count}")

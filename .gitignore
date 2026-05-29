@@ -27,6 +27,10 @@ venv.bak/
 
 # Exercise solutions
 solution.py
+classes*
 
 # Notebook-generated data artifacts
 module_1_python_fundamentals/notebooks/data/
+
+# MacOS
+.DS_Store
