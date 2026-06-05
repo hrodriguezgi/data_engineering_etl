@@ -1,7 +1,7 @@
 """
-Tests for Module 5: Automation Components
+Tests for Module 6: Automation Components
 ==========================================
-Tests cover automation utilities taught in module_5_automation:
+Tests cover automation utilities taught in module_6_automation:
   - Orchestrator (step execution, dependencies, retries, status tracking)
   - Config loading, validation, and merging
   - Logging setup
@@ -19,8 +19,8 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch, call
 
 # Reference to module 5
-MODULE5_DIR = Path(__file__).parent.parent / "module_5_automation"
-CONFIG_DIR = MODULE5_DIR / "config"
+MODULE6_DIR = Path(__file__).parent.parent / "module_6_automation"
+CONFIG_DIR = MODULE6_DIR / "config"
 
 
 # =============================================================================
@@ -64,8 +64,8 @@ class TestOrchestrator:
 
     def _make_orchestrator(self):
         """Import and instantiate the orchestrator."""
-        sys.path.insert(0, str(MODULE5_DIR))
-        from module_5_automation.etl_orchestration_helpers import (
+        sys.path.insert(0, str(MODULE6_DIR))
+        from module_6_automation.etl_orchestration_helpers import (
             PipelineOrchestrator, PipelineStep, StepStatus
         )
         return PipelineOrchestrator, PipelineStep, StepStatus
@@ -74,7 +74,7 @@ class TestOrchestrator:
         """A successful step should have status SUCCESS."""
         sys.path.insert(0, str(Path(__file__).parent.parent))
         try:
-            from module_5_automation.etl_orchestration_helpers import (
+            from module_6_automation.etl_orchestration_helpers import (
                 PipelineOrchestrator, PipelineStep, StepStatus
             )
         except ImportError:
@@ -92,7 +92,7 @@ class TestOrchestrator:
         """A failing step should have status FAILED."""
         sys.path.insert(0, str(Path(__file__).parent.parent))
         try:
-            from module_5_automation.etl_orchestration_helpers import (
+            from module_6_automation.etl_orchestration_helpers import (
                 PipelineOrchestrator, PipelineStep, StepStatus
             )
         except ImportError:
@@ -111,7 +111,7 @@ class TestOrchestrator:
         """A step should be SKIPPED if its dependency failed."""
         sys.path.insert(0, str(Path(__file__).parent.parent))
         try:
-            from module_5_automation.etl_orchestration_helpers import (
+            from module_6_automation.etl_orchestration_helpers import (
                 PipelineOrchestrator, PipelineStep, StepStatus
             )
         except ImportError:

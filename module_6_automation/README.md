@@ -1,4 +1,4 @@
-# Module 5 – Automation
+# Module 6 – Automation
 
 Production data pipelines don't run manually — they're scheduled, monitored, and self-healing. This module covers the tools and patterns to automate your ETL workflows.
 
@@ -18,7 +18,7 @@ Production data pipelines don't run manually — they're scheduled, monitored, a
 ## How to Run
 
 ```bash
-# From the module_5_automation directory
+# From the module_6_automation directory
 
 # Orchestration demo (runs immediately, no scheduling)
 python 03_etl_orchestration.py

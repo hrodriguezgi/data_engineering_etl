@@ -1,5 +1,5 @@
 """
-Module 5 - Lesson 4: Config-Driven ETL Pipelines
+Module 6 - Lesson 4: Config-Driven ETL Pipelines
 ==================================================
 Hard-coding pipeline parameters (file paths, table names, filter thresholds)
 makes pipelines brittle and non-reusable. Config-driven pipelines separate
