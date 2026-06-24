@@ -1,0 +1,19 @@
+[{
+    "order_id": 1001,
+    "customer": "Alice",
+    "quantity": 1,
+    "unit_price": 999.99
+},
+{
+    "order_id": 1002,
+    "customer": "Bob",
+    "quantity": 3,
+    "unit_price": 29.99
+},
+{
+    "order_id": 1003,
+    "customer": "Carol",
+    "quantity": 2,
+    "unit_price": 140.00
+}
+]

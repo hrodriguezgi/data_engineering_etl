@@ -26,7 +26,7 @@ from collections import namedtuple
 # =============================================================================
 
 # Simple assignment — Python infers the type automatically
-name = "Alice"  # str
+name: str = "Alice"  # str
 age = 30  # int
 salary = 75_000.50  # float  (underscores improve readability in large numbers)
 is_active = True  # bool

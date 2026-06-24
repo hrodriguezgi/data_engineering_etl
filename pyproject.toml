@@ -3,6 +3,7 @@ name = "data-engineering-etl"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
+    "duckdb-sqlalchemy>=1.5.3",
     "faker>=19.0.0",
     "flake8>=7.3.0",
     "ipython>=8.39.0",

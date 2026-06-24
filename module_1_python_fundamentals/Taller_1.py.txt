@@ -1,0 +1,30 @@
+# Al siguiente objeto de python:
+records = [
+    {"id": 1, "customer": "Alice", "amount": "250.00"},
+    {"id": 2, "customer": "Bob", "amount": "-20"},
+    {"id": 3, "customer": "", "amount": "175.5"},
+    {"id": 4, "customer": "Carol", "amount": "120.0"},
+]
+
+#Se le debe adicionar un nuevo campo llamado country y colocar un valor cualquiera entre: CO, MX, CL .
+#Al final imprimir el valor de la variable records con los valores actualizados de cada diccionario
+
+# Agregar el código:
+
+print(records)
+
+
+# -----------------
+# Utilizando el siguiente objeto de python:
+records = [
+    {"id": 1, "status": "active", "amount": 250},
+    {"id": 2, "status": "inactive", "amount": 90},
+    {"id": 3, "status": "active", "amount": 175},
+    {"id": 4, "status": "active", "amount": 320},
+]
+
+# Crear un diccionario con el conteo de status utilizando un ciclo. Imprimir el diccionario creado con el conteo
+
+# Agregar el código:
+
+print(diccionario_conteo)

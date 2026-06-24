@@ -1,0 +1,32 @@
+venta_id,fecha,cliente,ciudad,producto,categoria_producto,cantidad,valor_unitario
+VC001,2026/05/01,Almacen Roble,Medellin,Mesa comedor 4 puestos,Mesas,1,450000.0
+VC002,01-05-2026,Almacen Roble ,Medellin,Silla pino,Sillas,6,120000.0
+VC003,2026-05-03,Casa Viva,Envigado,Biblioteca modular,Biblioteca,1,680000.0
+VC003,2026-05-03,Casa Viva,Envigado,Biblioteca modular,Biblioteca,1,680000.0
+VC004,2026-05-04,Deco Hogar,Bello,Silla pino,Sillas,2,
+VC005,05/05/2026,Linea Madera,Itagui,Escritorio ejecutivo,Escritorios,1,520000.0
+VC006,2026-05-05,Linea Madera,Itagui,mesa auxiliar,Mesas,3,180000.0
+VC007,2026-05-06,Punto Nogal,Sabaneta,Closet dos puertas,Closets,1,760000.0
+VC008,06/05/2026,Punto Nogal,Sabaneta,Sofa madera lino,Sofas,1,980000.0
+VC009,2026/05/07,Mobiliario 33,Medellin,Barra desayunador,Barras,2,390000.0
+VC010,07-05-2026,Mobiliario 33,Medellin,Mesa de noche,Dormitorio,4,210000.0
+VC011,2026-05-07,Casa Viva,Envigado,Centro de entretenimiento,Salas,1,840000.0
+VC012,2026-05-08,Casa Viva,Envigado,Archivador vertical,Oficina,2,310000.0
+VC013,08/05/2026,Roble Urbano,Rionegro,Silla pino,sillas,8,120000.0
+VC014,2026-05-09,Roble Urbano,Rionegro,Biblioteca modular ,Bibliotecas,1,680000.0
+VC015,2026-05-09,Nido Interior,La Ceja,Escritorio ejecutivo,Escritorios,2,520000.0
+VC016,2026/05/10,Nido Interior,La Ceja,Mesa auxiliar,Mesas,2,180000.0
+VC017,10-05-2026,Hogar Azul,Bello,Closet dos puertas,Closets,1,760000.0
+VC018,2026-05-10,Hogar Azul,Bello,Sofa madera lino,Sofas,1,
+VC019,2026-05-11,Taller Habitat,Copacabana,Mesa comedor 4 puestos,Mesas,1,450000.0
+VC020,11/05/2026,Taller Habitat,Copacabana,Silla pino,Sillas,4,120000.0
+VC021,2026-05-12,Casa Prisma,Medellin,Centro de entretenimiento,Salas,1,840000.0
+VC022,2026-05-12,Casa Prisma,Medellin,Mesa de noche,Dormitorios,2,210000.0
+VC023,2026/05/13,Habitarte,Envigado,Archivador vertical,Oficina,1,310000.0
+VC024,13-05-2026,Habitarte,Envigado,Barra desayunador,Barras,2,390000.0
+VC025,2026-05-14,Nodo Madera,Itagui,Mesa auxiliar,Mesas,2,180000.0
+VC026,14/05/2026,Nodo Madera,Itagui,Silla pino,Sillas,10,120000.0
+VC027,2026-05-15,Rincon Mueble,Sabaneta,Closet dos puertas,Closets,1,760000.0
+VC028,2026-05-15,Rincon Mueble,Sabaneta,Escritorio ejecutivo,Escritorios,1,520000.0
+VC029,2026-05-16,Casa Prisma,Medellin,Mesa comedor 4 puestos,Mesas,1,450000.0
+VC030,2026-05-16,Casa Prisma, Medellin,Silla pino,Sillas,4,120000.0
