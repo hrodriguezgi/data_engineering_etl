@@ -35,16 +35,56 @@ Improve course content for technical students by embedding real-world concepts, 
 ## Current Course Structure
 
 ### Module 1: Python Fundamentals
+**Lessons:** 5 lessons covering foundational Python concepts for data engineering
+- 00_intro_python_data_engineering.py
+- 01_variables_and_data_types.py
+- 02_control_flow.py
+- 03_functions.py
+- 04_file_handling.py
+
+**Key Topics:** Variables, data types, control flow, functions, file I/O, data engineering foundations
 
 ### Module 2: Pandas
+**Lessons:** 5 lessons covering pandas DataFrame and Series operations
+- 01_intro_to_pandas.py
+- 02_data_cleaning.py
+- 03_data_transformation.py
+- 04_aggregations.py
+- 05_merging_joining.py
+
+**Key Topics:** DataFrames, data cleaning, transformations, aggregations, joins
 
 ### Module 3: Data Extraction
+**Lessons:** 4 lessons covering extraction from common data sources
+- 01_extract_from_csv.py
+- 02_extract_from_json.py
+- 03_extract_from_api.py
+- 04_extract_from_database.py
+
+**Key Topics:** CSV parsing, JSON handling, REST API consumption, database queries
 
 ### Module 4: ETL Pipelines
+**Lessons:** 4 lessons building complete ETL workflows
+- 01_etl_design_principles.py
+- 02_simple_etl_pipeline.py
+- 03_etl_with_transformations.py
+- 04_etl_with_validation.py
+
+**Key Topics:** ETL design patterns, validation, error handling, pipeline orchestration
 
 ### Module 5: Incremental Loads
+**Status:** Currently empty (planned for future content)
+
+**Planned Topics:** Change data capture, incremental updates, state management, deduplication
 
 ### Module 6: Automation
+**Lessons:** 4 lessons covering production deployment and scheduling
+- 01_scheduling_with_schedule.py
+- 02_etl_with_logging.py
+- 03_etl_orchestration.py
+- 04_config_driven_etl.py
+
+**Key Topics:** Task scheduling, logging, orchestration, configuration management
 
 
 ---
@@ -126,11 +166,11 @@ Always include real-world context like:
 4. **The trade-off:** When this approach matters (performance, readability, safety)
 
 ### What NOT to Do
-- ❌ Don't add premature abstractions
-- ❌ Don't include features beyond the lesson scope
-- ❌ Don't use outdated patterns (old-style classes, os.path instead of pathlib)
-- ❌ Don't skip error cases ("assume valid input")
-- ❌ Don't hardcode values (use configurable examples)
+-Don't add premature abstractions
+-Don't include features beyond the lesson scope
+-Don't use outdated patterns (old-style classes, os.path instead of pathlib)
+-Don't skip error cases ("assume valid input")
+-Don't hardcode values (use configurable examples)
 
 ---
 

@@ -1,29 +1,27 @@
-"""
-Module 4 - Lesson 4: ETL with Data Validation
-==============================================
-Data validation is the process of ensuring data meets defined quality standards
-before it's loaded into a target system. Bad data loaded into production causes
-downstream problems that are expensive to fix.
-
-This lesson implements a comprehensive validation framework with:
-  - Schema validation (required fields, correct types)
-  - Business rule validation (domain-specific rules)
-  - Statistical validation (outlier detection, null rate thresholds)
-  - Cross-record validation (uniqueness checks, referential integrity)
-  - Data quality reporting
-
-The pipeline routes records through:
-  VALID → loaded to destination
-  INVALID → quarantined in a separate table with reasons
-"""
+# %% [markdown]
+# # Module 4 - Lesson 4: ETL with Data Validation
+#
+# Data validation ensures data meets defined quality standards
+# **before** it's loaded into a target system.
+#
+# Bad data loaded to production causes expensive downstream problems:
+# - Wrong analytics and reports
+# - Failed integrations
+# - Loss of trust in the data
+#
+# **What You'll Learn:**
+# - Building a validation framework
+# - Schema validation (required fields, types)
+# - Business rule validation (domain logic)
+# - Statistical validation (outlier detection)
+# - Quality reporting and quarantine patterns
 
 import logging
 import pandas as pd
-import numpy as np
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Tuple
 from sqlalchemy import create_engine
 
 MODULE_DIR = Path(__file__).parent
@@ -34,31 +32,64 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("etl_validation")
 
 
-# =============================================================================
-# VALIDATION FRAMEWORK
-# =============================================================================
+# %% [markdown]
+# ## Problem 1: Loading Bad Data and Discovering It Too Late
+#
+# **Scenario:** Your pipeline loads 1 million rows with invalid data.
+# Two weeks later, an analyst finds that half the prices are NULL or negative.
+# Now you have to:
+# - Identify which records are bad
+# - Recalculate all downstream reports
+# - Figure out what went wrong
+#
+# **The Cost:** Data corruption, lost time, reputational damage.
 
+# %%
+# WRONG: No validation — just load everything
+test_sales = pd.DataFrame({
+    "id": [1, 2, 3, 4],
+    "product": ["Laptop", "Monitor", "Keyboard", None],  # Missing product
+    "price": [999, 299, "abc", -50],  # Invalid price, negative price
+    "qty": [2, 1, 0, 1],  # qty = 0 is unrealistic
+})
+
+print("WRONG: No validation, just load everything:")
+print(test_sales)
+print("  If this goes to production, you won't catch the problems until too late!\n")
+
+# %%
+# RIGHT: Validate before loading, quarantine bad records
+print("CORRECT: Validate, report, quarantine bad records:")
+print("  [More examples below with the validation framework]\n")
+
+
+# %% [markdown]
+# ## Validation Rules Framework
+#
+# A reusable system for checking data quality consistently.
+
+# %%
 @dataclass
 class ValidationRule:
     """
     Represents a single validation rule.
 
     Attributes:
-        name: Human-readable rule name.
-        description: What this rule checks.
-        check: Function that takes a DataFrame and returns a boolean mask
-               (True = VALID, False = INVALID).
-        severity: "error" = reject the record; "warning" = flag but keep.
+        name: Human-readable rule name
+        description: What this rule checks
+        check: Function that takes DataFrame and returns boolean mask
+               (True = VALID, False = INVALID)
+        severity: "error" = reject record; "warning" = flag but keep
     """
     name: str
     description: str
     check: Callable[[pd.DataFrame], pd.Series]
-    severity: str = "error"   # "error" or "warning"
+    severity: str = "error"
 
 
 @dataclass
 class ValidationReport:
-    """Collects and summarizes validation results across all rules."""
+    """Collects and summarizes validation results."""
     total_records: int = 0
     valid_records: int = 0
     invalid_records: int = 0
@@ -75,15 +106,16 @@ class ValidationReport:
         })
 
     def summary(self) -> str:
+        """Generate a formatted quality report."""
         lines = [
-            "=" * 55,
+            "=" * 60,
             "DATA QUALITY REPORT",
-            "=" * 55,
-            f"  Total records:   {self.total_records}",
-            f"  Valid records:   {self.valid_records}",
-            f"  Invalid records: {self.invalid_records}",
-            f"  Warning records: {self.warning_records}",
-            f"  Quality score:   {self.valid_records/max(self.total_records,1)*100:.1f}%",
+            "=" * 60,
+            f"  Total records:    {self.total_records}",
+            f"  Valid records:    {self.valid_records}",
+            f"  Invalid records:  {self.invalid_records}",
+            f"  Warning records:  {self.warning_records}",
+            f"  Quality score:    {self.valid_records/max(self.total_records,1)*100:.1f}%",
             "",
             "Rule Results:",
         ]
@@ -93,10 +125,16 @@ class ValidationReport:
                 f"  {icon} [{r['severity'].upper():7s}] {r['rule']:30s} "
                 f"{r['failures']:3d} failures ({r['failure_rate']:.1f}%)"
             )
-        lines.append("=" * 55)
+        lines.append("=" * 60)
         return "\n".join(lines)
 
 
+# %% [markdown]
+# ## The DataValidator Class
+#
+# Runs all rules and produces: valid records, invalid records, quality report.
+
+# %%
 class DataValidator:
     """
     Validates a DataFrame against a set of rules.
@@ -122,7 +160,7 @@ class DataValidator:
 
         Returns:
             Tuple of (valid_df, invalid_df, report).
-            invalid_df includes a '_validation_errors' column listing all failures.
+            Adds '_validation_errors' and '_validation_warnings' columns.
         """
         report = ValidationReport(total_records=len(df))
         df = df.copy()
@@ -134,7 +172,7 @@ class DataValidator:
         # Run each rule
         for rule in self.rules:
             try:
-                valid_mask = rule.check(df)  # True = record passes this rule
+                valid_mask = rule.check(df)
                 failures = (~valid_mask).sum()
 
                 report.add_rule_result(rule, failures)
@@ -183,17 +221,22 @@ class DataValidator:
         return valid_df, invalid_df, report
 
 
-# =============================================================================
-# DEFINE VALIDATION RULES
-# =============================================================================
+# %% [markdown]
+# ## Define Validation Rules for Sales Data
 
+# %%
 def build_sales_validator() -> DataValidator:
     """
-    Build and return a DataValidator configured with sales-specific rules.
+    Build a DataValidator configured with sales-specific rules.
+
+    Rules cover:
+    - Schema validation (required fields, types)
+    - Business rules (positive prices, valid discounts)
+    - Statistical checks (outlier detection, reasonable ranges)
     """
     validator = DataValidator("sales_validator")
 
-    # --- Schema Rules ---
+    # --- Required Fields (Error) ---
 
     validator.add_rule(ValidationRule(
         name="required_id",
@@ -216,12 +259,12 @@ def build_sales_validator() -> DataValidator:
         severity="error"
     ))
 
-    # --- Type Rules ---
+    # --- Type Rules (Error) ---
 
     validator.add_rule(ValidationRule(
         name="numeric_qty",
-        description="'qty' must be numeric and >= 1",
-        check=lambda df: df["qty"].notna() & pd.to_numeric(df["qty"], errors="coerce").notna(),
+        description="'qty' must be numeric",
+        check=lambda df: pd.to_numeric(df["qty"], errors="coerce").notna(),
         severity="error"
     ))
 
@@ -232,7 +275,7 @@ def build_sales_validator() -> DataValidator:
         severity="error"
     ))
 
-    # --- Business Rules ---
+    # --- Business Rules (Error) ---
 
     validator.add_rule(ValidationRule(
         name="positive_price",
@@ -248,13 +291,15 @@ def build_sales_validator() -> DataValidator:
         severity="error"
     ))
 
+    # --- Business Rules (Warning) ---
+
     validator.add_rule(ValidationRule(
         name="valid_discount",
         description="'discount' must be between 0.0 and 1.0",
         check=lambda df: (
             pd.to_numeric(df["discount"], errors="coerce").fillna(0).between(0.0, 1.0)
         ),
-        severity="warning"  # warning: we can clip and keep the record
+        severity="warning"
     ))
 
     validator.add_rule(ValidationRule(
@@ -262,29 +307,29 @@ def build_sales_validator() -> DataValidator:
         description="'region' must be in known values",
         check=lambda df: df["region"].str.strip().str.title().isin(
             ["North", "South", "East", "West"]
-        ) | df["region"].isna(),  # missing region is allowed (warning elsewhere)
+        ) | df["region"].isna(),
         severity="warning"
     ))
 
     validator.add_rule(ValidationRule(
-        name="required_customer_id",
-        description="'customer_id' is recommended (warning if missing)",
+        name="recommended_customer_id",
+        description="'customer_id' recommended (warning if missing)",
         check=lambda df: df["customer_id"].notna() & (df["customer_id"] != ""),
         severity="warning"
     ))
 
-    # --- Statistical/Range Rules ---
+    # --- Statistical Rules (Warning) ---
 
     validator.add_rule(ValidationRule(
         name="price_not_outlier",
-        description="'price' should be <= 5000 (flag unusually high prices)",
+        description="'price' should be <= 5000 (flag unusually high)",
         check=lambda df: pd.to_numeric(df["price"], errors="coerce") <= 5000,
         severity="warning"
     ))
 
     validator.add_rule(ValidationRule(
         name="qty_reasonable",
-        description="'qty' should be <= 100 (flag unrealistically large orders)",
+        description="'qty' should be <= 100 (flag unrealistic orders)",
         check=lambda df: pd.to_numeric(df["qty"], errors="coerce") <= 100,
         severity="warning"
     ))
@@ -292,10 +337,10 @@ def build_sales_validator() -> DataValidator:
     return validator
 
 
-# =============================================================================
-# EXTRACT & TRANSFORM
-# =============================================================================
+# %% [markdown]
+# ## Extract, Transform, and Load
 
+# %%
 def extract_raw(filepath: Path) -> pd.DataFrame:
     """Extract raw data — read everything as strings."""
     df = pd.read_csv(filepath, dtype=str, keep_default_na=False).replace("", None)
@@ -304,7 +349,10 @@ def extract_raw(filepath: Path) -> pd.DataFrame:
 
 
 def minimal_transform(df: pd.DataFrame) -> pd.DataFrame:
-    """Minimal transforms needed before validation (type parsing only)."""
+    """
+    Minimal transforms before validation.
+    Only type parsing — no business logic.
+    """
     df = df.copy()
     df["qty"] = pd.to_numeric(df["qty"], errors="coerce")
     df["price"] = pd.to_numeric(df["price"], errors="coerce")
@@ -314,7 +362,7 @@ def minimal_transform(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def enrich_valid(df: pd.DataFrame) -> pd.DataFrame:
-    """Apply enrichment to records that passed validation."""
+    """Apply enrichment only to records that passed validation."""
     df = df.copy()
     df["qty"] = df["qty"].astype(int)
     df["net_amount"] = (df["qty"] * df["price"] * (1 - df["discount"])).round(2)
@@ -322,12 +370,17 @@ def enrich_valid(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# =============================================================================
-# LOAD
-# =============================================================================
+# %% [markdown]
+# ## Load Validated and Quarantined Records
 
+# %%
 def load_to_db(valid_df: pd.DataFrame, invalid_df: pd.DataFrame, engine) -> dict:
-    """Load valid and quarantined records to separate tables."""
+    """
+    Load valid and quarantined records to separate tables.
+
+    - validated_sales: passed all validation
+    - quarantine_sales: failed validation (for investigation)
+    """
     stats = {}
 
     # Load valid records
@@ -346,14 +399,14 @@ def load_to_db(valid_df: pd.DataFrame, invalid_df: pd.DataFrame, engine) -> dict
     return stats
 
 
-# =============================================================================
-# MAIN PIPELINE
-# =============================================================================
+# %% [markdown]
+# ## Run the Full Validation Pipeline
 
+# %%
 if __name__ == "__main__":
-    logger.info("=" * 55)
+    logger.info("=" * 60)
     logger.info("ETL WITH VALIDATION PIPELINE")
-    logger.info("=" * 55)
+    logger.info("=" * 60)
 
     # 1. Extract
     raw_df = extract_raw(DATA_DIR / "raw_sales.csv")
@@ -365,45 +418,61 @@ if __name__ == "__main__":
     validator = build_sales_validator()
     valid_df, invalid_df, report = validator.validate(df)
 
-    # 4. Print the quality report
+    # %% [markdown]
+    # ## Quality Report
+
+    # %%
     print("\n" + report.summary())
 
-    # 5. Show invalid records and their errors
+    # %% [markdown]
+    # ## Quarantined Records
+
+    # %%
     if len(invalid_df) > 0:
-        print(f"\nInvalid records (quarantined):")
+        print(f"\n[Quarantined Records] ({len(invalid_df)} rows):")
         quarantine_view = invalid_df[["id", "product_name", "qty", "price",
                                        "discount", "_validation_errors",
                                        "_validation_warnings"]].copy()
         print(quarantine_view.to_string())
 
-    # 6. Show warning records (valid but flagged)
+    # %% [markdown]
+    # ## Valid Records with Warnings
+
+    # %%
     warned = valid_df[valid_df["_validation_warnings"].notna()]
     if len(warned) > 0:
-        print(f"\nValid records with warnings ({len(warned)}):")
+        print(f"\n[Valid Records with Warnings] ({len(warned)} rows):")
         print(warned[["id", "product_name", "price", "_validation_warnings"]].to_string())
 
-    # 7. Enrich the valid records before loading
+    # %% [markdown]
+    # ## Load and Verify
+
+    # %%
+    # Enrich the valid records before loading
     valid_enriched = enrich_valid(valid_df)
 
-    # 8. Load
+    # Load to database
     engine = create_engine(f"sqlite:///{DB_PATH}")
     load_stats = load_to_db(valid_enriched, invalid_df, engine)
-    print(f"\nLoad stats: {load_stats}")
+    print(f"\n[Load Stats]: {load_stats}")
 
-    # 9. Verify
+    # Verify
     validated = pd.read_sql("SELECT * FROM validated_sales ORDER BY id", con=engine)
-    print(f"\nValidated sales ({len(validated)} rows):")
+    print(f"\n[Validated Sales] ({len(validated)} rows):")
     print(validated[["id", "product_name", "qty", "price", "net_amount"]].to_string())
 
-    # 10. Quality metrics
-    print(f"\nData Quality Summary:")
-    print(f"  Input rows:      {len(raw_df)}")
-    print(f"  Valid rows:      {len(valid_df)} ({len(valid_df)/len(raw_df)*100:.0f}%)")
-    print(f"  Quarantined:     {len(invalid_df)} ({len(invalid_df)/len(raw_df)*100:.0f}%)")
-    print(f"  Warnings issued: {report.warning_records}")
+    # %% [markdown]
+    # ## Final Quality Metrics
+
+    # %%
+    print("\n[Data Quality Summary]")
+    print(f"  Input rows:        {len(raw_df)}")
+    print(f"  Valid rows:        {len(valid_df)} ({len(valid_df)/len(raw_df)*100:.0f}%)")
+    print(f"  Quarantined:       {len(invalid_df)} ({len(invalid_df)/len(raw_df)*100:.0f}%)")
+    print(f"  Warnings issued:   {report.warning_records}")
 
     # Cleanup
     engine.dispose()
     if DB_PATH.exists():
         DB_PATH.unlink()
-        print(f"\nCleaned up {DB_PATH.name}")
+        print(f"\n✓ Cleaned up {DB_PATH.name}")

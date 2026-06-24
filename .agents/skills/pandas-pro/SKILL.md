@@ -53,7 +53,7 @@ Load detailed guidance based on context:
 ### Vectorized Operations (before/after)
 
 ```python
-# ❌ AVOID: row-by-row iteration
+#AVOID: row-by-row iteration
 for i, row in df.iterrows():
     df.at[i, 'tax'] = row['price'] * 0.2
 
@@ -64,7 +64,7 @@ df['tax'] = df['price'] * 0.2
 ### Safe Subsetting with `.copy()`
 
 ```python
-# ❌ AVOID: chained indexing triggers SettingWithCopyWarning
+#AVOID: chained indexing triggers SettingWithCopyWarning
 df['A']['B'] = 1
 
 # ✅ USE: .loc[] with explicit copy when mutating a subset
