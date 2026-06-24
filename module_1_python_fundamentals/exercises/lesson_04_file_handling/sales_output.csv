@@ -1,0 +1,4 @@
+order_id,customer,quantity,unit_price,total
+1001,Alice,1,999.99,999.99
+1002,Bob,3,29.99,89.97
+1003,Carol,2,140.00,280.00

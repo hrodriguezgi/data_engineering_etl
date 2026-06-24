@@ -91,6 +91,7 @@ def connect_to_database(host: str, port: int = 5432, database: str = "mydb") -> 
 print(connect_to_database("localhost"))
 # Overriding some defaults
 print(connect_to_database("db.example.com", port=5433))
+print(connect_to_database("db.example.com", database="testdb"))
 # Override all defaults
 print(connect_to_database("db.example.com", 3306, "production"))
 
